@@ -1,0 +1,2 @@
+[05-May-2020 19:38:18 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/admin2314/public_html/finz/dm_api/application/controllers/Api.php on line 414
+[05-May-2020 19:45:12 UTC] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/admin2314/public_html/finz/dm_api/application/controllers/Api.php on line 123

@@ -1,0 +1,75 @@
+up vote
+2
+down vote
+accepted
+Try This. It's working-
+HTML Form-
+
+<form enctype="multipart/form-data" id="submit">
+               <div class="form-group">
+               <label for="menu">Select Menu</label>
+                   <select class="form-control" name="selectmenuid" id="selectmenuid">
+                    <option value="">-- Select Menu --</option>
+                    <?php foreach($showData as $show):?>
+                      <option value="<?php echo $show->menu_id?>"><?php echo $show->menu_name?></option>
+                    <?php endforeach;?>
+                    </select>
+                </div>
+               <div class="form-group">
+               <label for="menu">Select Sub Menu</label>
+                   <select class="form-control" name="selectsubmenu" id="selectsubmenu">
+                       <option>--Select Sub Menu--</option>
+                    </select>
+               </div>
+              <div class="form-group">
+                  <label for="imagetitle">Image Title</label>
+                  <input type="text" class="form-control" name="imagetitle" id="imagetitle" placeholder="Enter Image Title" required="required">
+                </div>
+               <div class="control-group form-group">
+                        <div class="controls">
+                            <label>Upload Photo:</label>
+                            <input name="file" type="file"  id="image_file" required>
+                            <p class="help-block"></p>
+                        </div>
+               </div>
+               <button type="submit" class="btn btn-primary" id="sub">Submit</button>
+           </form>  
+Ajax -
+
+$('#submit').submit(function(e){
+    e.preventDefault(); 
+         $.ajax({
+             url:'Your path',
+             type:"post",
+             data:new FormData(this),
+             processData:false,
+             contentType:false,
+             cache:false,
+             async:false,
+              success: function(data){
+                  alert(data);
+           }
+         });
+    });  
+Just set url in ajax, It would work perfectly.
+Controller function-
+
+public function do_upload(){
+        $config['upload_path']="./upload";
+        $config['allowed_types']='gif|jpg|png';
+        $this->load->library('upload',$config);
+        if($this->upload->do_upload("file")){
+        $data = array('upload_data' => $this->upload->data());
+        $data1 = array(
+        'menu_id' => $this->input->post('selectmenuid'),
+        'submenu_id' => $this->input->post('selectsubmenu'),
+        'imagetitle' => $this->input->post('imagetitle'),
+        'imgpath' => $data['upload_data']['file_name']
+        );  
+        $result= $this->Admin_model->save_imagepath($data1);
+        if ($result == TRUE) {
+            echo "true";
+        }
+        }
+
+     }
